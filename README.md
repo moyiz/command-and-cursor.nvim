@@ -15,9 +15,8 @@ Highlight cursor and visual selections when entering command mode (experimental)
 
 ## Motivation
 - In normal mode, cursor "disappears" from buffer when entering `cmdline`.
-- Visual selections are not inclusive (cursor) by default.
-- Setting a dedicated highlight group for the cursor to mark its position or
-  to mark the entire visual selection.
+- Visual selections are not inclusive (cursor).
+- Visual selection highlight might be too subtle in a colorful "big" terminal.
 - when expanding a visual selection with incremental search, the initial
   selection is "blended" with the expansion. 
 
@@ -32,7 +31,7 @@ Use your favorite plugin manager:
 }
 ```
 
-# Options
+## Options
 ```lua
 M.defaults = {
   hl_group = "TermCursor", -- The highlight group to use.
