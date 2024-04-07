@@ -27,6 +27,7 @@ Use your favorite plugin manager:
 ```lua
 {
   "moyiz/command-and-cursor.nvim",
+  event = "VeryLazy",
   opts = {},
 }
 ```
