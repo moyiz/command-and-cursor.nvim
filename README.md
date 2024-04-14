@@ -9,16 +9,16 @@ Highlight cursor and visual selections when entering command mode (experimental)
 - Highlight cursor in active buffer when entering command mode (`:/?`).
 - Highlight visual selections and include cursor location by default
   (inclusive).
-- Configure highlight group.
 - Highlight initial visual selection prior to its expansion with incremental
   search.
+- Configure highlight group.
 
 ## Motivation
 - In normal mode, cursor "disappears" from buffer when entering `cmdline`.
-- Visual selections are not inclusive (cursor).
+- Visual selection highlight is not inclusive (cursor).
 - Visual selection highlight might be too subtle in a colorful "big" terminal.
-- when expanding a visual selection with incremental search, the initial
-  selection is "blended" with the expansion. 
+- When expanding a visual selection with incremental search, there is no
+  indication of the original selection.
 
 ## Installation
 Use your favorite plugin manager:
