@@ -2,6 +2,9 @@
 
 Highlight cursor and visual selections when entering command mode (experimental).
 
+## Demo
+[command-and-cursor-2024-04-18_13.31.53.webm](https://github.com/moyiz/command-and-cursor.nvim/assets/8603313/93029919-696f-4c44-86f7-39126a7fa81c)
+
 ## Features
 - Highlight cursor in active buffer when entering command mode (`:/?`).
 - Highlight visual selections and include cursor location by default
