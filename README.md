@@ -2,9 +2,6 @@
 
 Highlight cursor and visual selections when entering command mode (experimental).
 
-## Demo
-![Demo](./demo.svg)
-
 ## Features
 - Highlight cursor in active buffer when entering command mode (`:/?`).
 - Highlight visual selections and include cursor location by default
