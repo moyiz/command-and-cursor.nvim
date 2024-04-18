@@ -8,8 +8,8 @@ local function get_cursor_region()
   row_s = row_s - 1
   local row_e, col_e
 
-  -- "\22" <=> Ctrl-V
-  if mode:match "^[vV]" or mode == "\22" then
+  -- "\22" <=> Ctrl-V <=> "\x16"
+  if mode:match "^[vV\22]" then
     row_e, col_e = vim.fn.line "v", vim.fn.col "v"
     col_e = col_e - 1
     row_e = row_e - 1
@@ -25,6 +25,11 @@ local function get_cursor_region()
   else
     -- Non-visual mode.
     row_e, col_e = row_s, col_s
+  end
+
+  if mode == "V" then
+    col_s = 0
+    col_e = #vim.fn.getline(row_e + 1)
   end
 
   local regtype = mode
@@ -53,6 +58,27 @@ M.defaults = {
   debug_position = false, -- Show start and end positions with `vim.notify`.
 }
 
+function M.update_region()
+  start_row, start_col, end_row, end_col, regtype = get_cursor_region()
+
+  if not M.defaults.inclusive and start_col == end_col then
+    end_col = end_col + 1
+  end
+
+  if M.defaults.debug_position then
+    vim.notify(
+      string.format(
+        "%s %s %s %s %s",
+        regtype,
+        start_row,
+        start_col,
+        end_row,
+        end_col
+      )
+    )
+  end
+end
+
 function M.setup(options)
   M.defaults = vim.tbl_deep_extend("force", M.defaults, options or {})
 
@@ -71,28 +97,15 @@ function M.setup(options)
     callback = M.clear,
   })
 
+  vim.api.nvim_create_autocmd({ "ModeChanged" }, {
+    group = augroup,
+    pattern = "*:[vV\x16]*",
+    callback = M.update_region,
+  })
+
   vim.api.nvim_create_autocmd({ "CursorMoved", "CursorMovedI" }, {
     group = augroup,
-    callback = function()
-      start_row, start_col, end_row, end_col, regtype = get_cursor_region()
-
-      if not M.defaults.inclusive and start_col == end_col then
-        end_col = end_col + 1
-      end
-
-      if M.defaults.debug_position then
-        vim.notify(
-          string.format(
-            "%s %s %s %s %s",
-            regtype,
-            start_row,
-            start_col,
-            end_row,
-            end_col
-          )
-        )
-      end
-    end,
+    callback = M.update_region,
   })
 end
 
