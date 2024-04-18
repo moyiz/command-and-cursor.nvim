@@ -49,7 +49,7 @@ end
 
 local start_row, start_col, end_row, end_col, regtype = get_cursor_region()
 
-M = {}
+local M = {}
 
 M.defaults = {
   hl_group = "TermCursor", -- The highlight group to use.
