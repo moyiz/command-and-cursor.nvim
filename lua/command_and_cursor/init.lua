@@ -1,4 +1,5 @@
 local namespace
+local hl_range
 
 -- Returns positions and `regtype` of cursor or visual selection.
 local function get_cursor_region()
@@ -84,6 +85,12 @@ function M.setup(options)
 
   local augroup =
     vim.api.nvim_create_augroup("CommandAndCursor", { clear = true })
+  local v = vim.version()
+  if vim.version.lt({ v.major, v.minor, v.patch }, { 0, 11, 0 }) == true then
+    hl_range = vim.highlight.range
+  else
+    hl_range = vim.hl.range
+  end
 
   namespace = vim.api.nvim_create_namespace "CommandAndCursor"
 
@@ -110,7 +117,10 @@ function M.setup(options)
 end
 
 function M.highlight()
-  vim.highlight.range(
+  if start_row == end_row and start_col == end_col then
+    return
+  end
+  hl_range(
     0,
     namespace,
     M.defaults.hl_group,
